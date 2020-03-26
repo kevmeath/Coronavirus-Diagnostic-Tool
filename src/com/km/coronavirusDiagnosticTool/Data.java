@@ -2,31 +2,27 @@ package com.km.coronavirusDiagnosticTool;
 
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Scanner;
 
 public class Data {
-	private Map<String, Symptom> symptoms = new HashMap<String, Symptom>();
+	private ArrayList<Symptom> symptoms = new ArrayList<Symptom>();
 	
-	public Data(String filePath) {
-		addData(new File(filePath));
-	}
-	
-	public void addData(File file) {
-		String[] symptomNames = new String[] {};
+	public void train(File file) {
 		try {
 			Scanner scanner = new Scanner(file);
+			String[] symptomNames = new String[]{};
 			String[] row;
 			scan:
 			while (scanner.hasNextLine()) {
 				row = scanner.nextLine().split(",");
-				for (int i = 0; i < row.length; i++) {
+				for (int i = 0; i < row.length - 1; i++) {
 					if (row[i].strip().equals("")) {
 						//empty cell
 						continue scan;
 					}
-					else if (i == row.length - 1){
+					else if (i == row.length - 2){
 						//row of column headers found
 						symptomNames = row;
 						break scan;
@@ -35,9 +31,13 @@ public class Data {
 			}
 			while (scanner.hasNextLine()) {
 				row = scanner.nextLine().split(",");
+				if (row.length == 0) {
+					continue;
+				}
 				for (int i = 0; i < row.length - 1; i++) {
 					addSymptom(symptomNames[i].toLowerCase().strip(), row[i].toLowerCase().strip(), row[row.length - 1].toLowerCase().strip());
 				}
+				//addDiagnosis(row[row.length - 1].toLowerCase().strip());
 			}
 			scanner.close();
 		} catch (FileNotFoundException exception) {
@@ -45,16 +45,18 @@ public class Data {
 		}
 	}
 	
-	public void addSymptom(String name, String category, String result) {	
-		if (symptoms.containsKey(name)) {
-			symptoms.get(name).addValue(category, result);
+	private void addSymptom(String name, String response, String result) {
+		
+		for (Symptom symptom : symptoms) {
+			if (symptom.getName().equals(name)) {
+				symptom.addValue(new ArrayList<String>(Arrays.asList(response, result)));
+				return;
+			}
 		}
-		else {
-			symptoms.put(name, new Symptom(name, category, result));
-		}
+		symptoms.add(new Symptom(name, new ArrayList<String>(Arrays.asList(response, result))));
 	}
 	
-	public Symptom getSymptom(String name) {
-		return symptoms.get(name.toLowerCase());
+	public ArrayList<Symptom> getSymptoms() {
+		return symptoms;
 	}
 }
