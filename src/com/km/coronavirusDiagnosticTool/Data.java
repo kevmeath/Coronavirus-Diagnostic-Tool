@@ -9,6 +9,11 @@ import java.util.Scanner;
 public class Data {
 	private ArrayList<Symptom> symptoms = new ArrayList<Symptom>();
 	
+	/** 
+	 * Train the machine learning model using a csv file
+	 * 
+	 * @param file - csv file containing the training dataset
+	 */
 	public void train(File file) {
 		try {
 			Scanner scanner = new Scanner(file);
@@ -19,11 +24,9 @@ public class Data {
 				row = scanner.nextLine().split(",");
 				for (int i = 0; i < row.length - 1; i++) {
 					if (row[i].strip().equals("")) {
-						//empty cell
 						continue scan;
 					}
 					else if (i == row.length - 2){
-						//row of column headers found
 						symptomNames = row;
 						break scan;
 					}
@@ -37,7 +40,6 @@ public class Data {
 				for (int i = 0; i < row.length - 1; i++) {
 					addSymptom(symptomNames[i].toLowerCase().strip(), row[i].toLowerCase().strip(), row[row.length - 1].toLowerCase().strip());
 				}
-				//addDiagnosis(row[row.length - 1].toLowerCase().strip());
 			}
 			scanner.close();
 		} catch (FileNotFoundException exception) {
@@ -45,8 +47,15 @@ public class Data {
 		}
 	}
 	
+	/**
+	 * Add a symptom or condition of a symptom to the list of learned symptoms.
+	 * Increment the count for the condition of this symptom if it already exists.
+	 * 
+	 * @param name - name of the symptom
+	 * @param response - condition of the symptom
+	 * @param result - diagnosis for this patient
+	 */
 	private void addSymptom(String name, String response, String result) {
-		
 		for (Symptom symptom : symptoms) {
 			if (symptom.getName().equals(name)) {
 				symptom.addValue(new ArrayList<String>(Arrays.asList(response, result)));
@@ -56,6 +65,11 @@ public class Data {
 		symptoms.add(new Symptom(name, new ArrayList<String>(Arrays.asList(response, result))));
 	}
 	
+	/**
+	 * Get a list the learned symptoms
+	 * 
+	 * @return list of symptoms
+	 */
 	public ArrayList<Symptom> getSymptoms() {
 		return symptoms;
 	}
