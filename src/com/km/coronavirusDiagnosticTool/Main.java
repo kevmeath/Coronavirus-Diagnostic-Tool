@@ -1,8 +1,8 @@
 package com.km.coronavirusDiagnosticTool;
 
 import java.io.File;
-
-import com.km.coronavirusDiagnosticTool.gui.Menu;
+import java.util.ArrayList;
+import java.util.Arrays;
 
 /**
  * Coronavirus Diagnostic Tool uses machine learning to determine

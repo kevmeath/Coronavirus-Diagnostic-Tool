@@ -1,6 +1,7 @@
 package com.km.coronavirusDiagnosticTool;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 
 public class Symptom {
@@ -38,8 +39,14 @@ public class Symptom {
 	 * @param key - 2 element list containing the symptom condition and the diagnosis
 	 * @return number of data entries for this condition and diagnosis combination
 	 */
-	public int getCount(ArrayList<String> key) {
-		return count.get(key);
+	public int getCount(String condition, String diagnosis) {
+		ArrayList<String> key = new ArrayList<String>(Arrays.asList(condition, diagnosis));
+		if (count.containsKey(key)) {
+			return count.get(key);
+		}
+		else {
+			return 0;
+		}
 	}
 	
 	/**
