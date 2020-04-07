@@ -1,30 +1,41 @@
 package com.km.coronavirusDiagnosticTool;
 
 public class NaiveBayes {
-	private Data data;
 	
-	public NaiveBayes(Data data) {
-		this.data = data;
+	/**
+	 * Get the probability of covid-19 with the given conditions
+	 * 
+	 * @param data - trained data
+	 * @param conditions - array of conditions to test
+	 * @param diagnosis - the result to test for
+	 * @return the probability that a patient with the given conditions has covid-19
+	 */
+	public static double getProbability(Data data, String[] conditions, String diagnosis) {
+		double sumProporional = 0;
+		for (String diagnosis1 : data.getDiagnoses()) {
+			sumProporional += getProportionalProbability(data, conditions, diagnosis1);
+		}
+		return getProportionalProbability(data, conditions, diagnosis) / sumProporional;
 	}
 	
-	public double getDiagnosis(String[] conditions, String diagnosis) {
-		return 0;
-	}
-	
-	public double getProbability(String[] conditions, String diagnosis) {
-		return 0;
-	}
-	
-	private double getProportionalProbability(String[] conditions, String diagnosis) {
+	/**
+	 * Get the proportional probability of covid-19 with the given conditions
+	 * 
+	 * @param data - trained data
+	 * @param conditions - array of conditions to test for
+	 * @param diagnosis - the result to test for
+	 * @return proportional probability
+	 */
+	private static double getProportionalProbability(Data data, String[] conditions, String diagnosis) {
 		double probability = 0;
-		for (int i = 0; i < conditions.length; i++) {
+		for (int i = 0; i < conditions.length - 1; i++) {
 			Symptom symptom = data.getSymptoms().get(i);
 			int count = symptom.getCount(conditions[i], diagnosis);
-			int total = data.getTotal();
+			int total = data.getCount(diagnosis);
 			
-			probability *= (count / total);
+			probability = probability > 0 ? probability * ((double)count / (double)total) : ((double)count / (double)total);
 		}
-		probability *= data.getCount(diagnosis) / data.getTotal();
+		probability *= (double) data.getCount(diagnosis) / (double) data.getTotal();
 		return probability;
 	}
 }

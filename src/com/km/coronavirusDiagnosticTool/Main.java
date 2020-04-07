@@ -15,5 +15,9 @@ public class Main {
 	public static void main(String[] args) {		
 		Data data = new Data();
 		data.train(new File("MLdata.csv"));
+		
+		String[] conditions = {"hot", "yes", "yes", "yes", "yes"};
+		double probability = NaiveBayes.getProbability(data, conditions, "yes");
+		System.out.println(probability);
 	}
 }
