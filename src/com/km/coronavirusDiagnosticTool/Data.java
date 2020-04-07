@@ -43,8 +43,11 @@ public class Data {
 				for (int i = 0; i < row.length - 1; i++) {
 					addSymptom(symptomNames[i].toLowerCase().strip(), row[i].toLowerCase().strip(), diagnosis);
 				}
-				if (!diagnoses.containsKey(diagnosis)) {
+				if (diagnoses.containsKey(diagnosis)) {
 					diagnoses.put(diagnosis, diagnoses.get(diagnosis) + 1);
+				}
+				else {
+					diagnoses.put(diagnosis, 1);
 				}
 			}
 			scanner.close();
@@ -84,6 +87,10 @@ public class Data {
 			}
 		}
 		return null;
+	}
+	
+	public ArrayList<String> getDiagnoses() {
+		return new ArrayList<String>(diagnoses.keySet());
 	}
 	
 	/**
