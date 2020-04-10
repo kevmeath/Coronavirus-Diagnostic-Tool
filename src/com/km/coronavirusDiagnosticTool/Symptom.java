@@ -9,7 +9,7 @@ public class Symptom {
 	private HashMap<ArrayList<String>, Integer> count = new HashMap<ArrayList<String>, Integer>();
 	
 	/**
-	 * Symptom class is used to record the count for each symptom condition and diagnosis
+	 * Initialize with a name and symptom condition
 	 * 
 	 * @param name - name of the symptom.
 	 * @param key - 2 element list containing the symptom condition and the diagnosis
@@ -56,5 +56,23 @@ public class Symptom {
 	 */
 	public String getName() {
 		return name;
+	}
+	
+	/**
+	 * Get the recorded conditions for this symptom
+	 * 
+	 * @return string list of conditions
+	 */
+	public ArrayList<String> getConditions() {
+		ArrayList<String> conditions = new ArrayList<String>();
+		for (ArrayList<String> key : count.keySet()) {
+			if (conditions.contains(key.get(0))) {
+				continue;
+			}
+			else {
+				conditions.add(key.get(0));
+			}
+		}
+		return conditions;
 	}
 }

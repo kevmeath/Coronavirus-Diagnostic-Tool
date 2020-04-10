@@ -21,6 +21,10 @@ public class Data {
 			Scanner scanner = new Scanner(file);
 			String[] symptomNames = new String[]{};
 			String[] row;
+			
+			// Find the column headers for the data set 
+			// assume that column headers are the first full row of occupied cells
+			// assume that the diagnosis is in the last column
 			scan:
 			while (scanner.hasNextLine()) {
 				row = scanner.nextLine().split(",");
@@ -34,15 +38,28 @@ public class Data {
 					}
 				}
 			}
+			// Read data and record it
+			// assuming that the remainder of the file is all relevant data
+			// assume that the diagnosis is in the last column
 			while (scanner.hasNextLine()) {
 				row = scanner.nextLine().split(",");
 				if (row.length == 0) {
+					// skip empty row
 					continue;
 				}
 				String diagnosis = row[row.length - 1].toLowerCase().strip();
+				if (diagnosis.equals("") || diagnosis == null) {
+					// skip if there is no diagnosis
+					continue;
+				}
 				for (int i = 0; i < row.length - 1; i++) {
+					if (row[i].equals("") || row[i] == null) {
+						// skip empty cell
+						continue;
+					}
 					addSymptom(symptomNames[i].toLowerCase().strip(), row[i].toLowerCase().strip(), diagnosis);
 				}
+				// increment count of diagnosis
 				if (diagnoses.containsKey(diagnosis)) {
 					diagnoses.put(diagnosis, diagnoses.get(diagnosis) + 1);
 				}
@@ -75,20 +92,10 @@ public class Data {
 	}
 	
 	/**
-	 * Get data for an individual symptom
+	 * Get all possible diagnoses
 	 * 
-	 * @param name - name of the symptom
-	 * @return Symptom
+	 * @return list of all possible diagnoses
 	 */
-	public Symptom getSymptom(String name) {
-		for (Symptom symptom : symptoms) {
-			if (symptom.getName().equals(name)) {
-				return symptom;
-			}
-		}
-		return null;
-	}
-	
 	public ArrayList<String> getDiagnoses() {
 		return new ArrayList<String>(diagnoses.keySet());
 	}
