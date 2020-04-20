@@ -1,0 +1,6 @@
+Temperature,Aches,Cough,Sore Throat,Recently Travelled from Danger Zone?,Shortness of breath,Has Covid19
+hot,yes,yes,yes,yes,yes,yes
+hot,yes,no,yes,no,no,yes
+normal,no,yes,no,no,yes,no
+cool,no,yes,yes,no,no,no
+hot,no,yes,yes,no,yes,yes
