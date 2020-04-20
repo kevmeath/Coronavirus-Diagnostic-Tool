@@ -12,10 +12,7 @@ import com.km.coronavirusDiagnosticTool.gui.MainMenu;
  *
  */
 public class Main {	
-	public static void main(String[] args) {		
-		Data data = new Data();
-		data.train(new File("MLdata.csv"));
-		
+	public static void main(String[] args) {
 		MainMenu menu = new MainMenu();
 	}
 }
