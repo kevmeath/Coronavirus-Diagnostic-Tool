@@ -2,6 +2,8 @@
 
 ### How it works
 
+Video demo: https://youtu.be/LrlsCBd7TsY 
+
 The model is trained using a table in comma delimited csv file. The first row is assumed to be the dependent features, the last column is assumed to be the class variable and the rest is assumed to be the responses. In order to gather the relevant data for the Naive Bayes classifier, a count is added for each outcome and for each unique combination of a feature and outcome.
 
 After reading the data, the GUI will show the features and the possible responses for each one in a combo box. Here you can select the symptoms you wish to use to make a prediction. Click predict and the chance of having COVID-19 given the symptoms entered will be calculated and displayed.
